@@ -15,7 +15,7 @@ app.get('/', function (req, res) {
 });
 
 var options = {
-    protocol: 'http://',
+    pro: 'http://',
     hostname: 'dealer.api.00bang.net',
     port: 80,
     method: 'GET',
@@ -47,7 +47,7 @@ var saveData = function (data) {
 var getKey = function (cb) {
     var t = new Date().getTime();
     options.path = KEY_API.replace('${t}', t + '');
-    options.url = options.protocol + options.hostname + options.path;
+    options.url = options.pro + options.hostname + options.path;
     console.log('getKey');
     httpReq(options, function (error, response, body) {
         console.log(error);
@@ -74,7 +74,7 @@ var getKey = function (cb) {
 var getMoney = function () {
     var t = new Date().getTime();
     options.path = MONEY_API.replace('${t}', t + '').replace('${key}', authkey);
-    options.url = options.protocol + options.hostname + options.path;
+    options.url = options.pro + options.hostname + options.path;
     console.log('getMoney');
     httpReq(options, function (error, response, body) {
         if (!error && response.statusCode == '200') {
