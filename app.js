@@ -38,8 +38,9 @@ var saveData = function (data) {
     fs.writeFile(resultFile, '\n' + new Date().toLocaleString() + '' + data, {
         flag: 'a'
     }, function (err) {
-        if (err) throw err;
-        res.send('ok');
+        if (err) {
+            console.log(err);
+        }
     });
 };
 
