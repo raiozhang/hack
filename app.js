@@ -4,6 +4,7 @@ var os = require('os');
 var http = require('http');
 var fs = require('fs');
 var resultFile = 'result.txt';
+var httpReq = require('request');
 
 var KEY_API = '/v3/Coupon/GetAuthKey?callback=callback&authkey=&_=${t}';
 
@@ -14,6 +15,7 @@ app.get('/', function (req, res) {
 });
 
 var options = {
+    protocol: 'http://',
     hostname: 'dealer.api.00bang.net',
     port: 80,
     method: 'GET',
@@ -26,7 +28,7 @@ var options = {
 
 var count = 0;
 var authkey = '';
-var pending= false;
+var pending = false;
 
 var callback = function (data) {
     return data;
@@ -45,45 +47,44 @@ var saveData = function (data) {
 var getKey = function (cb) {
     var t = new Date().getTime();
     options.path = KEY_API.replace('${t}', t + '');
+    options.url = options.protocol + options.hostname + options.path;
     console.log('getKey');
-    http.get(options, function (res) {
-        console.log(res);
-        var data = eval(res);
-        console.log(data);
-        if (data && data.state === 'success') {
-            if (data.data && data.data.Cookie) {
-                authkey = data.data.Cookie;
-                count = 3;
-                cb && cb();
+    httpReq(options, function (error, response, body) {
+        if (!error && response.statusCode == '200') {
+            var data = eval(body);
+            console.log(data);
+            if (data && data.state === 'success') {
+                if (data.data && data.data.Cookie) {
+                    authkey = data.data.Cookie;
+                    count = 3;
+                    cb && cb();
+                }
+            } else {
+                pending = false;
             }
         } else {
             pending = false;
         }
-    }).on('error', function (err) {
-        pending = false;
-        console.log('getKey:');
-        console.log(err);
     })
 };
 
 var getMoney = function () {
     var t = new Date().getTime();
     options.path = MONEY_API.replace('${t}', t + '').replace('${key}', authkey);
+    options.url = options.protocol + options.hostname + options.path;
     console.log('getMoney');
-    http.get(options, function (res) {
-        var data = eval(res);
-        if (data && data.state === 'success') {
-            data.authkey = authkey;
-            if (data.data.CouponValue && data.data.CouponValue >= 588) {
-                saveData(JSON.stringify(data));
+    httpReq(options, function (error, response, body) {
+        if (!error && response.statusCode == '200') {
+            var data = eval(body);
+            if (data && data.state === 'success') {
+                data.authkey = authkey;
+                if (data.data.CouponValue && data.data.CouponValue >= 588) {
+                    saveData(JSON.stringify(data));
+                }
+                count--;
             }
-            count--;
         }
         pending = false;
-    }).on('error', function (err) {
-        pending = false;
-        console.log('getMoney:');
-        console.log(err);
     })
 };
 
@@ -99,8 +100,6 @@ var start = function () {
         }
     }
 };
-
-
 
 
 var server = app.listen(9000, function () {
