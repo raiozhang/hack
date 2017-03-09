@@ -47,7 +47,9 @@ var getKey = function (cb) {
     options.path = KEY_API.replace('${t}', t + '');
     console.log('getKey');
     http.get(options, function (res) {
+        console.log(res);
         var data = eval(res);
+        console.log(data);
         if (data && data.state === 'success') {
             if (data.data && data.data.Cookie) {
                 authkey = data.data.Cookie;
