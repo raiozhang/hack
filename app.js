@@ -59,6 +59,8 @@ var getKey = function (cb) {
                     authkey = data.data.Cookie;
                     count = 3;
                     cb && cb();
+                }else{
+                    pending = false;
                 }
             } else {
                 pending = false;
