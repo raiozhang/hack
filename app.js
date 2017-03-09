@@ -86,6 +86,7 @@ var getMoney = function () {
 };
 
 var start = function () {
+
     if (!pending) {
         console.log('start');
         pending = true;
