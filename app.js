@@ -50,6 +50,7 @@ var getKey = function (cb) {
     options.url = options.protocol + options.hostname + options.path;
     console.log('getKey');
     httpReq(options, function (error, response, body) {
+        console.log(body);
         if (!error && response.statusCode == '200') {
             var data = eval(body);
             console.log(data);
