@@ -52,7 +52,7 @@ var getKey = function (cb) {
     httpReq(options, function (error, response, body) {
         console.log(error);
         console.log(response);
-        console.log(body);
+        console.log(body); 
         if (!error && response.statusCode == '200') {
             var data = eval(body);
             console.log(data);
