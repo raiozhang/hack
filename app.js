@@ -60,11 +60,11 @@ var getKey = function (cb) {
                     count = 3;
                     cb && cb();
                 } else {
-                    console.log(response);
+                    console.log(body);
                     pending = false;
                 }
             } else {
-                console.log(response);
+                console.log(body);
                 pending = false;
             }
         } else {
@@ -88,13 +88,13 @@ var getMoney = function () {
                     saveData(JSON.stringify(data));
                 }
                 console.log(data);
-                count--;
             } else {
-                console.log(response);
+                console.log(body);
             }
         } else {
             console.log(error)
         }
+        count--;
         pending = false;
     })
 };
