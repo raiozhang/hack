@@ -22,7 +22,8 @@ var options = {
     path: '',
     handers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-        'X-Forwarded-For': '10.111.198.90'
+        'X-Forwarded-For': '10.111.198.90',
+        'Client_Ip':'10.111.198.90'
     }
 };
 
@@ -111,7 +112,7 @@ var start = function () {
         console.log('start');
         pending = true;
         if (count <= 0) {
-            options.handers['X-Forwarded-For'] = genIpAddress();
+            options.handers['X-Forwarded-For']=options.handers['Client_Ip'] = genIpAddress();
             getKey(getMoney);
         } else {
             getMoney();
