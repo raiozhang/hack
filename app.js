@@ -103,7 +103,7 @@ function rnd(start, end) {
 }
 
 var genIpAddress = function () {
-    return rnd(1, 172) + '' + rnd(1, 255) + '' + rnd(1, 255) + '' + rnd(1, 255);
+    return rnd(1, 172) + '.' + rnd(1, 255) + '.' + rnd(1, 255) + '.' + rnd(1, 255);
 }
 
 var start = function () {
