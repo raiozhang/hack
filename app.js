@@ -60,12 +60,15 @@ var getKey = function (cb) {
                     count = 3;
                     cb && cb();
                 }else{
+                    console.log(response);
                     pending = false;
                 }
             } else {
+                console.log(response);
                 pending = false;
             }
         } else {
+            console.log(error);
             pending = false;
         }
     })
@@ -84,15 +87,19 @@ var getMoney = function () {
                 if (data.data.CouponValue && data.data.CouponValue >= 588) {
                     saveData(JSON.stringify(data));
                 }
+                console.log(data);
                 count--;
+            }else{
+                console.log(response);
             }
+        }else{
+            console.log(error)
         }
         pending = false;
     })
 };
 
 var start = function () {
-
     if (!pending) {
         console.log('start');
         pending = true;
