@@ -59,7 +59,7 @@ var getKey = function (cb) {
                     authkey = data.data.Cookie;
                     count = 3;
                     cb && cb();
-                }else{
+                } else {
                     console.log(response);
                     pending = false;
                 }
@@ -89,19 +89,27 @@ var getMoney = function () {
                 }
                 console.log(data);
                 count--;
-            }else{
+            } else {
                 console.log(response);
             }
-        }else{
+        } else {
             console.log(error)
         }
         pending = false;
     })
 };
+function rnd(start, end) {
+    return Math.floor(Math.random() * (end - start) + start);
+}
+
+var genIpAddress = function () {
+    return rnd(1, 172) + '' + rnd(1, 255) + '' + rnd(1, 255) + '' + rnd(1, 255);
+}
 
 var start = function () {
     if (!pending) {
         console.log('start');
+        options.handers['X-Forwarded-For'] = genIpAddress();
         pending = true;
         if (count <= 0) {
             getKey(getMoney);
