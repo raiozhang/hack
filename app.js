@@ -103,15 +103,15 @@ function rnd(start, end) {
 }
 
 var genIpAddress = function () {
-    return rnd(1, 172) + '.' + rnd(1, 255) + '.' + rnd(1, 255) + '.' + rnd(1, 255);
+    return rnd(1, 61) + '.' + rnd(169, 190) + '.' + rnd(1, 255) + '.' + rnd(1, 255);
 }
 
 var start = function () {
     if (!pending) {
         console.log('start');
-        options.handers['X-Forwarded-For'] = genIpAddress();
         pending = true;
         if (count <= 0) {
+            options.handers['X-Forwarded-For'] = genIpAddress();
             getKey(getMoney);
         } else {
             getMoney();
