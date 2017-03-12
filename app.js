@@ -10,6 +10,12 @@ var KEY_API = '/v3/Coupon/GetAuthKey?callback=callback&authkey=&_=${t}';
 
 var MONEY_API = '/v3/Coupon/GetBriberyMoney?callback=callback&authkey=${key}&_=${t}';
 
+
+// Response data jsonpcallback.SendSMSCallback({"state":"success","message":"","data":48342});
+var SMS_API = '/v3/Coupon/SendSMS?callback=jsonpcallback.SendSMSCallback&authkey=cae21342002240c3a4f6e6fcc34f2a24&phone=13760488423&_=1489295547550';
+
+
+
 app.get('/', function (req, res) {
     res.send('Hello World');
 });
