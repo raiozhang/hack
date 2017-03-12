@@ -3,7 +3,7 @@ var app = express();
 var os = require('os');
 var http = require('http');
 var fs = require('fs');
-var resultFile = 'result.txt';
+var resultFile = 'award.txt';
 var httpReq = require('request');
 
 var KEY_API = '/v3/Coupon/GetAuthKey?callback=callback&authkey=&_=${t}';
