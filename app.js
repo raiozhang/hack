@@ -28,7 +28,8 @@ var options = {
     path: '',
     handers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-        'X-Forwarded-For': '10.111.198.90'
+        'X-Forwarded-For': '10.111.198.90',
+        'Client_Ip':'10.111.198.90'
     }
 };
 
@@ -65,13 +66,16 @@ var getKey = function (cb) {
                     authkey = data.data.Cookie;
                     count = 3;
                     cb && cb();
-                }else{
+                } else {
+                    console.log(body);
                     pending = false;
                 }
             } else {
+                console.log(body);
                 pending = false;
             }
         } else {
+            console.log(error);
             pending = false;
         }
     })
@@ -90,19 +94,31 @@ var getMoney = function () {
                 if (data.data.CouponValue && data.data.CouponValue >= 588) {
                     saveData(JSON.stringify(data));
                 }
-                count--;
+                console.log(data);
+            } else {
+                console.log(body);
             }
+        } else {
+            console.log(error)
         }
+        count--;
         pending = false;
     })
 };
+function rnd(start, end) {
+    return Math.floor(Math.random() * (end - start) + start);
+}
+
+var genIpAddress = function () {
+    return rnd(1, 61) + '.' + rnd(169, 190) + '.' + rnd(1, 255) + '.' + rnd(1, 255);
+}
 
 var start = function () {
-
     if (!pending) {
         console.log('start');
         pending = true;
         if (count <= 0) {
+            options.handers['X-Forwarded-For']=options.handers['Client_Ip'] = genIpAddress();
             getKey(getMoney);
         } else {
             getMoney();
@@ -112,5 +128,5 @@ var start = function () {
 
 
 var server = app.listen(9000, function () {
-    setInterval(start, 3000);
+    setInterval(start, 10000);
 });
